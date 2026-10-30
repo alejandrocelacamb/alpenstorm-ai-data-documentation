@@ -218,3 +218,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# dbt / Databricks local config and artifacts
+profiles.yml
+.user.yml
+dbt_packages/
+dbt_project/logs/
+logs/
+.databrickscfg
+*.pem
+*.key

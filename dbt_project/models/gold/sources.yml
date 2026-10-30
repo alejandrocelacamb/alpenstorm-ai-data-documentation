@@ -3,8 +3,9 @@ version: 2
 
 sources:
   - name: alpenstorm_gold
-    catalog: alejandro
-    schema: alpenstorm_demo
+    # Configure via environment variables (no environment-specific names in the repo)
+    catalog: "{{ env_var('DBT_SOURCE_CATALOG') }}"
+    schema: "{{ env_var('DBT_SOURCE_SCHEMA') }}"
     description: "Gold analytical dataset for Alpenstrom, a Swiss energy provider."
 
     tables:
