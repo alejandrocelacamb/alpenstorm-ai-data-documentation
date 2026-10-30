@@ -1,0 +1,66 @@
+
+version: 2
+
+sources:
+  - name: alpenstrom_gold
+    catalog: alejandro
+    schema: alpenstrom_demo
+    description: "Gold analytical dataset for Alpenstrom, a Swiss energy provider."
+
+    tables:
+
+      - name: gold_dim_date
+        description: ""
+        columns:
+          - name: date
+            description: ""
+          - name: year
+            description: ""
+          - name: quarter
+            description: ""
+          - name: month
+            description: ""
+          - name: month_name
+            description: ""
+          - name: season
+            description: ""
+
+      - name: gold_dim_energy_tariff
+        description: ""
+        columns:
+          - name: tariff_id
+            description: ""
+          - name: tariff_name
+            description: ""
+          - name: customer_type
+            description: ""
+          - name: tariff_category
+            description: ""
+          - name: price_per_mwh
+            description: ""
+          - name: description
+            description: ""
+
+      - name: gold_fact_energy_consumption
+        description: ""
+        columns:
+          - name: consumption_id
+            description: ""
+          - name: customer_id
+            description: ""
+          - name: date
+            description: ""
+          - name: tariff_id
+            description: ""
+          - name: consumption_mwh
+            description: ""
+          - name: peak_demand_kw
+            description: ""
+          - name: price_per_mwh
+            description: ""
+          - name: energy_cost_chf
+            description: ""
+          - name: revenue_chf
+            description: ""
+          - name: co2_emissions_tons
+            description: ""
