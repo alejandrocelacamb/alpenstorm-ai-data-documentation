@@ -2,12 +2,13 @@
 version: 2
 
 sources:
-  - name: alpenstrom_gold
+  - name: alpenstorm_gold
     catalog: alejandro
     schema: alpenstorm_demo
+    description: "Gold analytical dataset for Alpenstrom, a Swiss energy provider."
 
     tables:
       - name: gold_dim_customers
-      - name: gold_dim_energy_tariff
       - name: gold_dim_date
+      - name: gold_dim_energy_tariff
       - name: gold_fact_energy_consumption

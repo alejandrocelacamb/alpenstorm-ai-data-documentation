@@ -3,6 +3,15 @@ name: alpenstorm
 version: '1.0.0'
 config-version: 2
 
-profile: alpenstrom
+profile: alpenstorm
 
 model-paths: ["models"]
+
+models:
+  alpenstrom:
+    gold:
+      +schema: alpenstrom_dbt
+      +materialized: table
+      +persist_docs:
+        relation: true
+        columns: true

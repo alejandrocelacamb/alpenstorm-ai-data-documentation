@@ -1,0 +1,90 @@
+
+version: 2
+
+models:
+
+  - name: gold_dim_customers
+    description: ""
+    columns:
+      - name: customer_id
+        description: ""
+      - name: customer_name
+        description: ""
+      - name: customer_type
+        description: ""
+      - name: industry
+        description: ""
+      - name: canton
+        description: ""
+      - name: canton_code
+        description: ""
+      - name: city
+        description: ""
+      - name: language_region
+        description: ""
+      - name: contract_type
+        description: ""
+      - name: tariff_id
+        description: ""
+      - name: contract_start_date
+        description: ""
+      - name: contracted_power_kw
+        description: ""
+      - name: customer_status
+        description: ""
+
+  - name: gold_dim_date
+    description: ""
+    columns:
+      - name: date
+        description: ""
+      - name: year
+        description: ""
+      - name: quarter
+        description: ""
+      - name: month
+        description: ""
+      - name: month_name
+        description: ""
+      - name: season
+        description: ""
+
+  - name: gold_dim_energy_tariff
+    description: ""
+    columns:
+      - name: tariff_id
+        description: ""
+      - name: tariff_name
+        description: ""
+      - name: customer_type
+        description: ""
+      - name: tariff_category
+        description: ""
+      - name: price_per_mwh
+        description: ""
+      - name: description
+        description: ""
+
+  - name: gold_fact_energy_consumption
+    description: ""
+    columns:
+      - name: consumption_id
+        description: ""
+      - name: customer_id
+        description: ""
+      - name: date
+        description: ""
+      - name: tariff_id
+        description: ""
+      - name: consumption_mwh
+        description: ""
+      - name: peak_demand_kw
+        description: ""
+      - name: price_per_mwh
+        description: ""
+      - name: energy_cost_chf
+        description: ""
+      - name: revenue_chf
+        description: ""
+      - name: co2_emissions_tons
+        description: ""
