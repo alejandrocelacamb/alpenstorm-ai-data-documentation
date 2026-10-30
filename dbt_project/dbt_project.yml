@@ -8,9 +8,8 @@ profile: alpenstorm
 model-paths: ["models"]
 
 models:
-  alpenstrom:
+  alpenstorm:
     gold:
-      +schema: alpenstrom_dbt
       +materialized: table
       +persist_docs:
         relation: true

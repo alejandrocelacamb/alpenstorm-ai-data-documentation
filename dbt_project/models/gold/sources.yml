@@ -8,7 +8,7 @@ sources:
     description: "Gold analytical dataset for Alpenstrom, a Swiss energy provider."
 
     tables:
-      - name: gold_dim_customers
+      - name: gold_dim_customer
       - name: gold_dim_date
       - name: gold_dim_energy_tariff
       - name: gold_fact_energy_consumption

@@ -1,0 +1,154 @@
+version: 2
+
+models:
+
+- name: gold_dim_customer
+  description: "Customer dimension in the GOLD layer of Alpenstrom, containing one
+    row per customer along with descriptive attributes used for segmentation and analytics.
+    The table combines customer identity, segmentation (type and industry), Swiss
+    location (canton, city, language region), and current contract information (contract
+    type, tariff, start date, contracted power, and status). It is intended as a reference
+    dimension for joining to consumption, billing, and operational fact tables, and
+    supports slicing by geography, language region, customer segment, and contract
+    characteristics."
+  columns:
+  - name: customer_id
+    description: "Unique identifier for the customer within Alpenstrom (e.g. 'CUST_0001').
+      Used to join customer attributes to fact tables such as consumption or billing."
+  - name: customer_name
+    description: "Display name of the customer. For residential customers this is
+      typically a person's name, while business customers show the registered company
+      name (e.g. 'Rusconi Imballaggi SA')."
+  - name: customer_type
+    description: "High-level customer segment. Observed values include 'Residential',
+      'SME', and 'Industrial', used to distinguish households from small-to-medium
+      businesses and large industrial consumers."
+  - name: industry
+    description: "Industry or sector classification of the customer, such as 'Household',
+      'Hospitality', 'Paper & Packaging', or 'Data Centers'. Enables analysis of consumption
+      and revenue by industry vertical."
+  - name: canton
+    description: "Full name of the Swiss canton where the customer is located (e.g.
+      'Ticino', 'Vaud', 'Zurich'). Useful for regional reporting."
+  - name: canton_code
+    description: "Two-letter official Swiss canton code (e.g. 'TI', 'VD', 'ZH', 'BE',
+      'BS') corresponding to the canton field."
+  - name: city
+    description: "City or municipality where the customer is located (e.g. 'Lugano',
+      'Zürich', 'Bern')."
+  - name: language_region
+    description: "Swiss language region associated with the customer's location, such
+      as 'German-speaking', 'French-speaking', or 'Italian-speaking'. Supports analysis
+      across Switzerland's main linguistic areas."
+  - name: contract_type
+    description: "Type of energy supply contract the customer holds, for example 'Fixed'.
+      Used to differentiate pricing and contractual arrangements."
+  - name: tariff_id
+    description: "Identifier of the tariff plan assigned to the customer (e.g. 'TRF_IND_FIX',
+      'TRF_SME_GRN', 'TRF_RES_FIX'). Links the customer to the applicable pricing
+      scheme."
+  - name: contract_start_date
+    description: "Date on which the customer's current contract became effective."
+  - name: contracted_power_kw
+    description: "Contractually agreed power capacity for the customer, expressed
+      in kilowatts (kW). Typical values are small (around 11 kW) for households and
+      significantly higher for SME and industrial customers."
+  - name: customer_status
+    description: "Current status of the customer relationship, such as 'Active'. Used
+      to filter active customers from inactive or terminated ones in reporting."
+
+- name: gold_dim_date
+  description: "Date dimension table for the Alpenstrom GOLD layer, providing calendar
+    attributes to support time-based analysis of energy consumption, demand, emissions
+    and financial metrics. Each row represents a single date along with its associated
+    year, quarter, month and season, enabling consistent time intelligence and seasonal
+    reporting across all fact tables in the analytics model."
+  columns:
+  - name: date
+    description: "Calendar date represented by the row. Serves as the time grain of
+      the dimension and is used to join fact tables for time-based analysis."
+  - name: year
+    description: "Calendar year of the date (e.g. 2025), used for year-over-year comparisons
+      and annual reporting."
+  - name: quarter
+    description: "Calendar quarter label of the date, formatted as 'Q1' through 'Q4',
+      used for quarterly aggregations and reporting cycles."
+  - name: month
+    description: "Calendar month number of the date, ranging from 1 (January) to 12
+      (December), used for monthly aggregations and sorting."
+  - name: month_name
+    description: "Full English name of the calendar month (e.g. 'April', 'May'), used
+      for user-friendly labels in reports and dashboards."
+  - name: season
+    description: "Season label associated with the date (e.g. 'Spring', 'Summer'),
+      supporting seasonal analysis of energy consumption and demand patterns across
+      Switzerland."
+
+- name: gold_dim_energy_tariff
+  description: "Dimension table in the GOLD layer describing the energy tariffs offered
+    by Alpenstrom to its Swiss customer base. Each row represents a distinct tariff
+    product, including its commercial name, target customer segment, pricing structure,
+    and reference price in CHF per MWh. This table supports analyses of tariff mix,
+    revenue segmentation, and customer offering comparisons across residential and
+    business segments."
+  columns:
+  - name: tariff_id
+    description: "Unique identifier of the tariff product (e.g. TRF_RES_FIX). Used
+      to reference tariffs from other tables such as customer contracts or billing
+      records."
+  - name: tariff_name
+    description: "Commercial name of the tariff as presented to customers (e.g. 'Alpenstorm
+      Home Fix', 'Alpenstorm Business Flex')."
+  - name: customer_type
+    description: "Customer segment targeted by the tariff, such as 'Residential' for
+      private households or 'SME' for small and medium enterprises."
+  - name: tariff_category
+    description: "Pricing structure category of the tariff. Observed values include
+      'Fixed' (price guaranteed for a defined period) and 'Variable' (market-indexed
+      price reviewed periodically)."
+  - name: price_per_mwh
+    description: "Reference price of the tariff expressed in CHF per MWh of energy
+      consumed. For variable tariffs this represents an indicative or current reference
+      price."
+  - name: description
+    description: "Free-text business description of the tariff, outlining its characteristics
+      such as price guarantee, review frequency, or energy source (e.g. 100% Swiss
+      hydro and solar)."
+
+- name: gold_fact_energy_consumption
+  description: "Fact table in the GOLD layer capturing energy consumption records
+    for Alpenstrom customers. Each row represents the consumption, cost, revenue,
+    and carbon emissions associated with a customer on a given date under a specific
+    tariff. Supports analytical use cases such as customer billing analysis, demand
+    profiling, revenue reporting, and sustainability tracking across Swiss cantons
+    and language regions."
+  columns:
+  - name: consumption_id
+    description: "Unique identifier for each energy consumption record (e.g., 'CONS_000001')."
+  - name: customer_id
+    description: "Identifier of the customer associated with the consumption record.
+      Links to the customer dimension."
+  - name: date
+    description: "Reference date for the consumption record, representing the period
+      during which energy consumption was measured."
+  - name: tariff_id
+    description: "Identifier of the tariff plan applied to the consumption (e.g.,
+      'TRF_IND_FIX'). Links to the tariff dimension."
+  - name: consumption_mwh
+    description: "Total energy consumed by the customer during the period, expressed
+      in megawatt-hours (MWh)."
+  - name: peak_demand_kw
+    description: "Highest instantaneous power demand recorded for the customer during
+      the period, expressed in kilowatts (kW)."
+  - name: price_per_mwh
+    description: "Unit price applied per megawatt-hour for the given consumption record,
+      expressed in Swiss francs (CHF)."
+  - name: energy_cost_chf
+    description: "Cost of the energy supplied for the consumption record, expressed
+      in Swiss francs (CHF). Represents the internal cost component."
+  - name: revenue_chf
+    description: "Revenue generated from the customer for the consumption record,
+      expressed in Swiss francs (CHF)."
+  - name: co2_emissions_tons
+    description: "Carbon dioxide emissions associated with the energy consumed in
+      the period, expressed in metric tons."
